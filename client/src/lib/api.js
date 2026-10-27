@@ -40,6 +40,16 @@ async function request(path, { method = "GET", body } = {}) {
   }
 
   const data = await response.json().catch(() => null);
+  
+  // A successful response that isn't JSON means the request never reached
+  // the Express API (usually VITE_API_URL is missing or wrong, so the
+  // client's own host answered with index.html).
+  if (response.ok && data === null) {
+    throw new ApiError(
+      `The API at "${BASE_URL}" didn't return data. Check VITE_API_URL in the client's settings, then redeploy the client.`,
+      0
+    );
+  }
 
   if (!response.ok) {
     // Session revoked (role changed, account deactivated): sign out so

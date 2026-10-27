@@ -95,7 +95,7 @@ export default function Dashboard() {
                 <div className="card-body">
                   {loading ? (
                     <LoadingState label="Loading patients…" />
-                  ) : data.recentPatients.length === 0 ? (
+                  ) : !data?.recentPatients?.length ? (
                     <EmptyState
                       icon="bi-people"
                       title="No patients registered yet"
