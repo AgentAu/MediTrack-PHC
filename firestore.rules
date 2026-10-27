@@ -1,0 +1,13 @@
+rules_version = '2';
+
+// MediTrack PHC: the browser never reads or writes Firestore directly.
+// All data access goes through the Express API using the Admin SDK,
+// which bypasses these rules. Denying everything here means that even
+// someone with the public web config can't touch the database.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
