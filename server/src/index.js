@@ -35,7 +35,12 @@ app.use("/api/staff", staffRoutes);
 app.use("/api", notFoundHandler);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`[MediTrack] API running on http://localhost:${PORT}`);
-  console.log(`[MediTrack] Accepting requests from ${CLIENT_ORIGIN}`);
-});
+// On Vercel the platform runs the exported app; locally we start a server.
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`[MediTrack] API running on http://localhost:${PORT}`);
+    console.log(`[MediTrack] Accepting requests from ${CLIENT_ORIGIN}`);
+  });
+}
+
+export default app;
